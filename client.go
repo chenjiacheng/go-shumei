@@ -20,8 +20,8 @@ func NewClient(appId, accessKey string, options ...ClientOptions) *Client {
 	c := &Client{
 		AppID:     appId,
 		AccessKey: accessKey,
-		Timeout:   time.Second * 3,
 		Region:    RegionBeijing,
+		Timeout:   time.Second * 3,
 	}
 
 	for _, option := range options {
@@ -246,7 +246,7 @@ func (c *Client) getGateway(service string) (string, error) {
 	}
 	gateway, ok = gateways[c.Region]
 	if !ok {
-		return gateway, fmt.Errorf("shumei service[%v] gateway[%v] gateway not found", service, c.Region)
+		return gateway, fmt.Errorf("shumei service[%v] gateway[%v] not found", service, c.Region)
 	}
 	return gateway, nil
 }
