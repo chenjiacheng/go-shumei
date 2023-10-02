@@ -224,11 +224,15 @@ func (c *Client) AudioQueryDetect(eventId string, req AudioQueryReq) (*AudioQuer
 
 // 发送 POST 请求
 func (c *Client) httpPostJson(event string, buf []byte) ([]byte, error) {
-	endpoint, err := c.getGateway(event)
+	gateway, err := c.getGateway(event)
 	if err != nil {
 		return nil, err
 	}
-	resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer(buf))
+
+	httpClient := http.Client{
+		Timeout: c.Timeout,
+	}
+	resp, err := httpClient.Post(gateway, "application/json", bytes.NewBuffer(buf))
 	if err != nil {
 		return nil, err
 	}
